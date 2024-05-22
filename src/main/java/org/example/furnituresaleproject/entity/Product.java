@@ -6,11 +6,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "products")
-@NoArgsConstructor
+@Table(name = "`product`")
 public class Product {
 
-    @Column(name = "productID", columnDefinition = "unsigned int")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -34,16 +32,15 @@ public class Product {
     private float discount;
 
     @ManyToOne
-    @JoinColumn(name = "provider")
+    @JoinColumn(name = "provider_id")
     private Provider provider;
 
     @ManyToOne
-    @JoinColumn(name = "typeOfSpace")
+    @JoinColumn(name = "typeOfSpace_id")
     private TypeSpace typeSpace;
 
     //discount; ip15  bh 30tr   5%,   1 nawm sau 30tr   20%
 
-    @Column(name = "status", columnDefinition = "default 'ACTIVED'")
     @Enumerated(EnumType.STRING)
     private StatusProduct status;
 

@@ -8,7 +8,6 @@ import java.util.List;
 @Table(name = "typespace")
 public class TypeSpace {
 
-    @Column(name = "id", columnDefinition = "unsigned int")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

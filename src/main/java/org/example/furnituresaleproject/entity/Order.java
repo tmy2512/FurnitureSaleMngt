@@ -3,7 +3,9 @@ package org.example.furnituresaleproject.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -12,36 +14,34 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
+@EntityListeners(AuditingEntityListener.class)
 public class Order {
 
-    @Column(name = "orderID", columnDefinition = "unsigned int")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "vendorID")
+    @JoinColumn(name = "vendor_id")
     private Account vendor;
 
     @ManyToOne
-    @JoinColumn(name = "customerID")
+    @JoinColumn(name = "customer_id")
     private Account customer;
 
     @Column(name = "totalPrice")
     private float totalAmount;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
+    @CreatedDate    // ko can dien, lay thoi gian khi toa moi luu vao truong nay
     @Column(name = "dateOfPurchase")
     private Date dateOfPurchase;
 
-//    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dateOfDelivery")
     private Date dateOfDelivery;
 
-    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 

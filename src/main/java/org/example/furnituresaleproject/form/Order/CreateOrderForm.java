@@ -17,7 +17,7 @@ public class CreateOrderForm {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Future(message = "{Product.createOrderForm.dateOfDelivery}")
-    private Date dateOfDelivery;
+    private String dateOfDelivery;
 
     @NotBlank(message = "{Product.createOrderForm.shippingAddress}")
     private String shippingAddress;
