@@ -8,17 +8,16 @@ import lombok.Data;
 @Table(name = "orderdetails")
 public class OrderDetails {
 
-    @Column(name = "orderDetailID", columnDefinition = "unsigned int")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "orderID")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "productID") // name in SQL
+    @JoinColumn(name = "product_id") // name in SQL
     private Product product;
 
     @Column(name = "quantity", nullable = false)

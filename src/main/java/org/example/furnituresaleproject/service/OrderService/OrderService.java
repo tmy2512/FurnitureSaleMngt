@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -34,12 +36,13 @@ public class OrderService  implements  IOrderService{
 
     @Override
     @Transactional
-    public void createOrder(CreateOrderForm form) {
+    public void createOrder(CreateOrderForm form) throws ParseException {
         // create order from createOrderForm
         Account account = accountRepository.findById(1).get();
         Order order = new Order();
-        order.setDateOfDelivery(form.getDateOfDelivery());
-//        order.setDateOfPurchase(LocalDateTime.now());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateOfDelivery = dateFormat.parse(form.getDateOfDelivery());
+        order.setDateOfDelivery(dateOfDelivery);
         order.setCustomer(account);
         order.setVendor(account);
         order.setShippingAddress(form.getShippingAddress());
@@ -47,8 +50,7 @@ public class OrderService  implements  IOrderService{
         for (int i = 0; i < form.getCreateOrderDetailForms().size(); i++) {
             Optional<Product> productOptional = productRepository.findById(form.getCreateOrderDetailForms().get(i).getProductId());
             Product product = productOptional.get();
-            totalAmount += product.getPrice()*form.getCreateOrderDetailForms().get(i).getQuantity() -
-                    product.getPrice()*form.getCreateOrderDetailForms().get(i).getQuantity()*product.getDiscount();
+            totalAmount += product.getPrice()*form.getCreateOrderDetailForms().get(i).getQuantity()*(100-product.getDiscount())/100;
         }
         order.setTotalAmount(totalAmount);
         order.setStatus(Order.Status.PROCESSING);

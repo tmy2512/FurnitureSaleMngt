@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 @RestController
 @RequestMapping(value = "api/v1/orders")
 @CrossOrigin("*")
@@ -16,7 +18,7 @@ public class OrderController {
     private IOrderService service;
 
     @PostMapping("")
-    public void createOrder(@RequestBody CreateOrderForm form) {
+    public void createOrder(@RequestBody CreateOrderForm form) throws ParseException {
         service.createOrder(form);
     }
 }

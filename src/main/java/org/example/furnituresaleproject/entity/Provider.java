@@ -1,14 +1,15 @@
 package org.example.furnituresaleproject.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "provider")
 public class Provider {
 
-    @Column(name = "id", columnDefinition = "unsigned int")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
