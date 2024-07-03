@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ITypeSpaceRepository extends JpaRepository<TypeSpace, Integer> {
+    TypeSpace findByName(String name);
 }

@@ -1,9 +1,6 @@
 package org.example.furnituresaleproject.service.OrderService;
 
-import org.example.furnituresaleproject.entity.Account;
-import org.example.furnituresaleproject.entity.Order;
-import org.example.furnituresaleproject.entity.OrderDetails;
-import org.example.furnituresaleproject.entity.Product;
+import org.example.furnituresaleproject.entity.*;
 import org.example.furnituresaleproject.form.Order.CreateOrderForm;
 import org.example.furnituresaleproject.repository.IAccountRepository;
 import org.example.furnituresaleproject.repository.IOrderDetailsRepository;
@@ -17,8 +14,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService  implements  IOrderService{
@@ -47,13 +44,22 @@ public class OrderService  implements  IOrderService{
         order.setVendor(account);
         order.setShippingAddress(form.getShippingAddress());
         float totalAmount = 0;
+        List<Integer> ids = new ArrayList<>();
+        Map<Product, Integer> map = new HashMap<>();
+//        List<Integer> ids = form.getCreateOrderDetailForms().stream().map(CreateOrderForm.CreateOrderDetailForm::getProductId).toList();
+        for (CreateOrderForm.CreateOrderDetailForm i :form.getCreateOrderDetailForms() ) {
+            ids.add(i.getProductId());
+        }
+        List<Product> products = productRepository.findByIdIn(ids);//1s
         for (int i = 0; i < form.getCreateOrderDetailForms().size(); i++) {
-            Optional<Product> productOptional = productRepository.findById(form.getCreateOrderDetailForms().get(i).getProductId());
+            Optional<Product> productOptional = productRepository.findById(form.getCreateOrderDetailForms().get(i).getProductId());//0.5
             Product product = productOptional.get();
             totalAmount += product.getPrice()*form.getCreateOrderDetailForms().get(i).getQuantity()*(100-product.getDiscount())/100;
         }
+
+
         order.setTotalAmount(totalAmount);
-        order.setStatus(Order.Status.PROCESSING);
+//        order.setStatus(OrderStatus.PROCESSING);
         orderRepository.save(order);
 
         // create orderDetail

@@ -2,7 +2,6 @@ package org.example.furnituresaleproject.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
@@ -13,22 +12,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name",length = 100, nullable = false)
+    @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(name = "price", nullable = false)
+    @Column(nullable = false)
     private float price;//30tr
 
-    @Column(name = "periodOfWarranty", nullable = false)
+    @Column( nullable = false)
     private String periodOfWarranty;
 
-    @Column(name = "description", nullable = false)
+    @Column( nullable = false)
+    @Lob
     private String description;
 
-    @Column(name = "image", nullable = false)
+    @Column( nullable = false)
     private String image;
 
-    @Column(name = "discount", nullable = false)
+    @Column( nullable = false)
     private float discount;
 
     @ManyToOne
@@ -41,8 +41,9 @@ public class Product {
 
     //discount; ip15  bh 30tr   5%,   1 nawm sau 30tr   20%
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private StatusProduct status;
+    private ProductStatus status = ProductStatus.ACTIVED;
 
 
 

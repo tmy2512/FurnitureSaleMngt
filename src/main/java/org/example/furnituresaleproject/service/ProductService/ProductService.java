@@ -1,9 +1,7 @@
 package org.example.furnituresaleproject.service.ProductService;
 
-import org.example.furnituresaleproject.entity.Order;
 import org.example.furnituresaleproject.entity.Product;
-import org.example.furnituresaleproject.entity.StatusProduct;
-import org.example.furnituresaleproject.form.Order.CreateOrderForm;
+import org.example.furnituresaleproject.entity.ProductStatus;
 import org.example.furnituresaleproject.form.product.CreateProductForAdminForm;
 import org.example.furnituresaleproject.form.product.UpdateProductForAdmin;
 import org.example.furnituresaleproject.repository.IProductRepository;
@@ -17,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -75,7 +72,7 @@ public class ProductService implements IProductService{
     public void deleteLogicProduct(int id, String status) {
         Optional<Product> productOptional = repository.findById(id);
         Product product = productOptional.get();
-        product.setStatus(StatusProduct.valueOf(status.toUpperCase()));
+        product.setStatus(ProductStatus.valueOf(status.toUpperCase()));
         repository.save(product);
     }
 

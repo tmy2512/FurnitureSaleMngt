@@ -20,10 +20,9 @@ public class OrderDetails {
     @JoinColumn(name = "product_id") // name in SQL
     private Product product;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(nullable = false)
     private int quantity;
 
-    @Column(name = "discount")
     private float discount;//5%    1h sau 20%
 
 

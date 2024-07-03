@@ -1,10 +1,14 @@
 package org.example.furnituresaleproject.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
 @Entity
+@NoArgsConstructor
 @Table(name = "typespace")
 public class TypeSpace {
 
@@ -12,36 +16,11 @@ public class TypeSpace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name",length = 50, nullable = false, unique = true)
+    @Column(length = 50, nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "typeSpace")
     private List<Product> lstProduct;
 
-    public TypeSpace() {
-    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Product> getLstProduct() {
-        return lstProduct;
-    }
-
-    public void setLstProduct(List<Product> lstProduct) {
-        this.lstProduct = lstProduct;
-    }
 }
