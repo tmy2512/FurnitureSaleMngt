@@ -1,12 +1,19 @@
 package org.example.furnituresaleproject.service.AccountService;
 
+import org.example.furnituresaleproject.config.jwt.JwtTokenUtil;
 import org.example.furnituresaleproject.entity.Account;
 import org.example.furnituresaleproject.form.account.CreateAccountForUserForm;
 import org.example.furnituresaleproject.form.account.UpdateAccountForUserForm;
 import org.example.furnituresaleproject.repository.IAccountRepository;
+import org.example.furnituresaleproject.request.AuthRequest;
+import org.example.furnituresaleproject.response.AuthResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,13 +26,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccountService implements IAccountService {
+public class AccountService implements IAccountService{
 
     @Autowired
     private IAccountRepository repository;
 
     @Autowired
+    private UserDetailsService userDetailsService;
+
+    private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
     private ModelMapper modelMapper;
+
+    public AccountService(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
     @Override
     public void createAccountForUser(CreateAccountForUserForm form) throws ParseException {
@@ -64,17 +83,16 @@ public class AccountService implements IAccountService {
         return repository.findAll();
     }
 
-    // get account infor to check authen at config file
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account  account = repository.findByEmail(email);
-        if (account == null) {
-            throw new UsernameNotFoundException(email);
-        }
-
-        return new org.springframework.security.core.userdetails.User
-                (account.getEmail(),
-                        account.getPassword(),
-                        AuthorityUtils.createAuthorityList(String.valueOf(account.getRole())));
+    public AuthResponse login(AuthRequest authRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Account account = repository.findByEmail(authRequest.getEmail());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
+        String token = jwtTokenUtil.generateToken(userDetails);
+        return new AuthResponse(token, account);
     }
+
+    // get account infor to check authen at config file tra ve userDetail
+
 }
