@@ -11,4 +11,5 @@ import java.util.List;
 public interface IProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
 
     List<Product> findByIdIn(List<Integer> ids);
+    int countByTypeSpaceIdAndProviderId(int typeSpaceId, int providerId);
 }

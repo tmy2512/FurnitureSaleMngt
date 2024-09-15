@@ -15,14 +15,13 @@ import java.util.List;
 @Data
 public class CreateOrderForm {
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Future(message = "{Product.createOrderForm.dateOfDelivery}")
     private String dateOfDelivery;
 
-    @NotBlank(message = "{Product.createOrderForm.shippingAddress}")
     private String shippingAddress;
     private String note;
+    private Float totalAmount;
     //id nguoi mua se lay tu account dang nhap
+    private Integer customerId;
     @NotEmpty(message = "required list products")
     private List<@Valid CreateOrderDetailForm> createOrderDetailForms;
 
@@ -32,7 +31,6 @@ public class CreateOrderForm {
     public static class CreateOrderDetailForm{
 
         private int productId;
-//        @Positive(message = "{Product.createOrderDetailForm.quantity}")
         private int quantity;
         private float discount;
     }

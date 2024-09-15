@@ -93,6 +93,12 @@ public class AccountService implements IAccountService{
         return new AuthResponse(token, account);
     }
 
+    @Override
+    public Integer getUserIdByEmail(String email) {
+        Account account = repository.findByEmail(email);
+        return account.getId();
+    }
+
     // get account infor to check authen at config file tra ve userDetail
 
 }

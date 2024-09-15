@@ -53,9 +53,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Role role = Role.CUSTOMER;
 
-
     public enum Gender {
         NAM, NU
     }
-
 }

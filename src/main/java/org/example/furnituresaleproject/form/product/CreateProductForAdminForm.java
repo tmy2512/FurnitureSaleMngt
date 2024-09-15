@@ -26,7 +26,7 @@ public class CreateProductForAdminForm {
     private String image;
 
     @NotNull(message = "{Product.createProductForAdminForm.discount}")
-    private Float discount;
+    private float discount;
 
     private int typeSpaceId;
 

@@ -14,6 +14,4 @@ public interface IProductService {
     public void createProductForAdmin(CreateProductForAdminForm form);
     public void updateProductForAdmin(UpdateProductForAdmin form);
     public void deleteLogicProduct(int id, String status);
-
-
 }

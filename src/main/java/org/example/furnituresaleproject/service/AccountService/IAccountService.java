@@ -15,4 +15,6 @@ public interface IAccountService {
     void updateAccountForUser(UpdateAccountForUserForm form) throws ParseException;
     List<Account> getAllAccount();
     AuthResponse login(AuthRequest authRequest) ;
+    Integer  getUserIdByEmail(String email);
+
 }

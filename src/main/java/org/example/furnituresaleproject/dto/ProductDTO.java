@@ -13,6 +13,7 @@ public class ProductDTO {
     private String description;
     private String image;
     private Float discount;
+    private String sku;
     private String providerName;
     private String typeSpaceName;
     private String periodOfWarranty;

@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -39,6 +40,6 @@ public class Order {
 
     private String shippingAddress;
 
-
-
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetails> orderDetailsList;
 }

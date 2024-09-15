@@ -31,6 +31,9 @@ public class Product {
     @Column( nullable = false)
     private float discount;
 
+    @Column(length = 50, nullable = false, unique = true)
+    private String sku; // ma san pham
+
     @ManyToOne
     @JoinColumn(name = "provider_id")
     private Provider provider;

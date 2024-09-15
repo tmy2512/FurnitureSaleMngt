@@ -24,3 +24,9 @@ public class TypeSpace {
 
 
 }
+// phong làm việc,
+// phòng khách,
+// phong ngủ,
+// phong an,
+// nha bep,
+// phong tam
